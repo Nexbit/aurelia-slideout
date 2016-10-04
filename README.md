@@ -10,6 +10,9 @@ To get started you'll need to install `aurelia-slideout` using `jspm install aur
 If you're using the `aurelia-cli`, add the following configuration to your `aurelia.json` after you've installed the package with npm. 
 
 ```
+    "slideout",
+    "decouple",
+    "emitter",
     {
       "name": "aurelia-slideout",
       "path": "../node_modules/aurelia-slideout/dist/amd",

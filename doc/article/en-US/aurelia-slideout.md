@@ -24,6 +24,9 @@ If you're using the `aurelia-cli`, add the following configuration to your `aure
 
 <code-listing heading="aurelia.json">
   <source-code lang="ES 2015">
+    "slideout",
+    "decouple",
+    "emitter",
     {
       "name": "aurelia-slideout",
       "path": "../node_modules/aurelia-slideout/dist/amd",

@@ -62,7 +62,6 @@
     "aurelia-dependency-injection": "^1.0.0",
     "aurelia-pal": "^1.0.0",
     "aurelia-templating": "^1.1.0",
-    "cpx": "^1.5.0",
     "slideout": "^0.1.12"
   },
   "devDependencies": {
@@ -71,6 +70,7 @@
     "aurelia-polyfills": "^1.1.0",
     "aurelia-testing": "^1.0.0-beta.2.0.0",
     "concurrently": "^2.2.0",
+    "cpx": "^1.5.0",
     "cross-env": "^2.0.1",
     "jasmine-core": "^2.4.1",
     "karma": "^1.2.0",

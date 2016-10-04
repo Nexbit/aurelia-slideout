@@ -1,0 +1,26 @@
+{
+  "name": "aurelia-slideout",
+  "version": "0.1.0",
+  "description": "Provides a component to wrap the slideout Javascript library.",
+  "keywords": [
+    "aurelia",
+    "plugin",
+    "skeleton",
+    "typescript"
+  ],
+  "main": "dist/commonjs/aurelia-slideout.js",
+  "moduleType": "node",
+  "homepage": "https://github.com/nexbit/aurelia-slideout",
+  "license": "MIT",
+  "author": "Paolo Furini <info@nexbit.it>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nexbit/aurelia-slideout"
+  },
+  "dependencies": {
+    "aurelia-binding": "^1.0.1",
+    "aurelia-metadata": "^1.0.0",
+    "aurelia-templating": "^1.0.0",
+    "slideout.js": "^0.1.12"
+  }
+}

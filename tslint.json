@@ -1,0 +1,97 @@
+{
+  "extends": [
+    "tslint-config-standard"
+  ],
+  "rulesDirectory": [
+    "built/local/tslint"
+  ],
+  "rules": {
+    "class-name": true,
+    "comment-format": [
+      true,
+      "check-space"
+    ],
+    "indent": [
+      true,
+      "spaces"
+    ],
+    "linebreak-style": [
+      true,
+      "LF"
+    ],
+    "one-line": [
+      true,
+      "check-open-brace",
+      "check-whitespace"
+    ],
+    "no-var-keyword": true,
+    "quotemark": [
+      true,
+      "single",
+      "avoid-escape"
+    ],
+    "semicolon": [
+      true,
+      "always"
+    ],
+    "whitespace": [
+      true,
+      "check-branch",
+      "check-operator",
+      "check-separator",
+      "check-type",
+      "check-module"
+    ],
+    "typedef-whitespace": [
+      true,
+      {
+        "call-signature": "nospace",
+        "index-signature": "nospace",
+        "parameter": "nospace",
+        "property-declaration": "nospace",
+        "variable-declaration": "nospace"
+      }
+    ],
+    "next-line": [
+      true,
+      "check-catch",
+      "check-else"
+    ],
+    "no-internal-module": true,
+    "no-trailing-whitespace": true,
+    "no-inferrable-types": true,
+    "no-null-keyword": true,
+    "no-unused-variable": true,
+    "boolean-trivia": true,
+    "type-operator-spacing": true,
+    "prefer-const": true,
+    "no-in-operator": true,
+    "no-increment-decrement": false,
+    "object-literal-surrounding-space": true,
+    "no-type-assertion-whitespace": true,
+    "member-access": [
+      false,
+      "check-accessor",
+      "check-constructor"
+    ],
+    "max-line-length": [
+      true,
+      180
+    ],
+    "member-ordering": [
+      true,
+      "public-before-private",
+      "static-before-instance",
+      "variables-before-functions"
+    ],
+    "no-reference": true,
+    "no-var-requires": true,
+    "brace-style": [
+      true,
+      "stroustrup",
+      {
+        "allowSingleLine": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/80057d687aefa736511e434cd2a6c0e9a6bb02bc/slideout/slideout.d.ts",
+    "raw": "registry:dt/slideout#0.1.12+20160328125855",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/80057d687aefa736511e434cd2a6c0e9a6bb02bc/slideout/slideout.d.ts"
+  }
+}

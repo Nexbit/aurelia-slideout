@@ -1,0 +1,8 @@
+{
+  "name": "aurelia-slideout",
+  "main": "dist/amd/aurelia-slideout.d.ts",
+  "dependencies": {},
+  "globalDependencies": {
+    "slideout": "registry:dt/slideout#0.1.12+20160328125855"
+  }
+}

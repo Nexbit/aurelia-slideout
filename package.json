@@ -1,0 +1,103 @@
+{
+  "name": "aurelia-slideout",
+  "version": "0.1.0",
+  "description": "Provides a component to wrap the slideout Javascript library.",
+  "keywords": [
+    "aurelia",
+    "plugin",
+    "component",
+    "slideout"
+  ],
+  "homepage": "https://github.com/nexbit/aurelia-slideout",
+  "bugs": {
+    "url": "https://github.com/nexbit/aurelia-slideout/issues"
+  },
+  "license": "MIT",
+  "author": "Paolo Furini <info@nexbit.it>",
+  "main": "dist/commonjs/aurelia-slideout.js",
+  "typings": "dist/commonjs/aurelia-slideout.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nexbit/aurelia-slideout"
+  },
+  "scripts": {
+    "pretest": "node_modules/.bin/cpx \"src/**/*.{html,css}\" dist/test/src",
+    "test": "cross-env ./node_modules/.bin/tsc && cross-env ./node_modules/karma/bin/karma start --single-run",
+    "test-watch": "concurrently \"./node_modules/.bin/tsc --watch\" \"./node_modules/karma/bin/karma start\"",
+    "prebuild:compile": "rimraf 'dist/**'",
+    "build:copyassets": "concurrently \"node_modules/.bin/cpx \"src/**/*.{html,css}\" dist/amd\" \"node_modules/.bin/cpx \"src/**/*.{html,css}\" dist/commonjs\" \"node_modules/.bin/cpx \"src/**/*.{html,css}\" dist/native-modules\" \"node_modules/.bin/cpx \"src/**/*.{html,css}\" dist/system\" \"node_modules/.bin/cpx \"src/**/*.{html,css}\" dist/es2015\" || true",
+    "build:compile": "concurrently \"node_modules/.bin/tsc --project tsconfig.build.json --outDir dist/amd\" \"./node_modules/.bin/tsc --project tsconfig.build.json --outDir dist/commonjs --module commonjs\" \"./node_modules/.bin/tsc --project tsconfig.build.json --outDir dist/native-modules --module es2015\" \"./node_modules/.bin/tsc --project tsconfig.build.json --outDir dist/system --module system\" \"./node_modules/.bin/tsc --project tsconfig.build.json --outDir dist/es2015 --target es2015 --module es2015\" || true",
+    "build": "npm run build:compile && npm run build:copyassets",
+    "postbuild": "npm run build:doc",
+    "prebuild:doc": "rimraf 'doc/api.json' && rimraf 'dist/doc-temp/**' && cross-env ./node_modules/.bin/tsc --project tsconfig.build.json --outFile dist/doc-temp/${npm-package-name}.js && node doc/shape-defs",
+    "build:doc": "cross-env ./node_modules/.bin/typedoc --json doc/api.json --excludeExternals --includeDeclarations --mode modules --target ES6 --name ${npm-package-name}-docs --ignoreCompilerErrors --tsconfig doc/tsconfig.json dist/doc-temp/",
+    "postbuild:doc": "concurrently \"node doc/shape-doc\" \"rimraf 'dist/doc-temp/**'\""
+  },
+  "jspm": {
+    "registry": "npm",
+    "jspmPackage": true,
+    "main": "aurelia-slideout",
+    "format": "amd",
+    "directories": {
+      "dist": "dist/amd"
+    },
+    "peerDependencies": {
+      "aurelia-binding": "^1.0.4",
+      "aurelia-dependency-injection": "^1.0.0",
+      "aurelia-pal": "^1.0.0",
+      "aurelia-templating": "^1.1.0",
+      "slideout": "^0.1.12"
+    },
+    "dependencies": {
+      "aurelia-binding": "^1.0.4",
+      "aurelia-dependency-injection": "^1.0.0",
+      "aurelia-pal": "^1.0.0",
+      "aurelia-templating": "^1.1.0",
+      "slideout": "^0.1.12"
+    },
+    "devDependencies": {}
+  },
+  "dependencies": {
+    "aurelia-binding": "^1.0.4",
+    "aurelia-dependency-injection": "^1.0.0",
+    "aurelia-pal": "^1.0.0",
+    "aurelia-templating": "^1.1.0",
+    "cpx": "^1.5.0",
+    "slideout": "^0.1.12"
+  },
+  "devDependencies": {
+    "aurelia-bootstrapper": "^1.0.0",
+    "aurelia-pal-browser": "^1.0.0",
+    "aurelia-polyfills": "^1.1.0",
+    "aurelia-testing": "^1.0.0-beta.2.0.0",
+    "concurrently": "^2.2.0",
+    "cross-env": "^2.0.1",
+    "jasmine-core": "^2.4.1",
+    "karma": "^1.2.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-ie-launcher": "^1.0.0",
+    "karma-jasmine": "^1.0.2",
+    "karma-requirejs": "^1.0.0",
+    "requirejs": "^2.2.0",
+    "requirejs-text": "^2.0.12",
+    "rimraf": "^2.5.4",
+    "tslint-config-standard": "^1.5.0",
+    "typedoc": "^0.4.5",
+    "typescript": "^2.0.0"
+  },
+  "aurelia": {
+    "build": {
+      "resources": [
+        "nx-slideout"
+      ]
+    },
+    "documentation": {
+      "articles": [
+        {
+          "title": "aurelia-slideout",
+          "href": "doc/article/en-US/aurelia-slideout.md"
+        }
+      ]
+    }
+  }
+}

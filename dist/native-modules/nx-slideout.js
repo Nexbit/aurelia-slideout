@@ -52,7 +52,6 @@ export var defaultSettings = {
 export var NxSlideout = (function () {
     function NxSlideout(_element) {
         this._element = _element;
-        this._clickAttached = false;
         this.opened = false;
     }
     NxSlideout.prototype.openedChanged = function (newValue, oldValue) {
@@ -140,13 +139,19 @@ export var NxSlideout = (function () {
     };
     NxSlideout.prototype.attachEventHandlers = function () {
         if (this._options.closeOnContentClick) {
-            this.contentRef.addEventListener('click', this.contentOnClick.bind(this));
-            this._clickAttached = true;
+            this._clickTarget = this.contentRef;
+            if (typeof this.clickableSelector === 'string') {
+                var results = DOM.querySelectorAll(this.clickableSelector);
+                if (results.length) {
+                    this._clickTarget = results[0];
+                }
+            }
+            this._clickTarget.addEventListener('click', this.contentOnClick.bind(this));
         }
     };
     NxSlideout.prototype.detachEventHandlers = function () {
-        if (this._clickAttached) {
-            this.contentRef.removeEventListener('click', this.contentOnClick);
+        if (this._clickTarget) {
+            this._clickTarget.removeEventListener('click', this.contentOnClick);
         }
     };
     NxSlideout.prototype.contentOnClick = function () {
@@ -181,6 +186,9 @@ export var NxSlideout = (function () {
     __decorate([
         bindable({ defaultBindingMode: bindingMode.twoWay })
     ], NxSlideout.prototype, "opened", void 0);
+    __decorate([
+        bindable({ defaultBindingMode: bindingMode.oneWay })
+    ], NxSlideout.prototype, "clickableSelector", void 0);
     NxSlideout = __decorate([
         customElement('nx-slideout'),
         inlineView("\n  <template>\n    <require from=\"./style.css\"></require>\n    <slot></slot>\n  </template>\n"),

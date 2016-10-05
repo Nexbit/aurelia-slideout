@@ -48,7 +48,6 @@ export let defaultSettings = {
 export let NxSlideout = class NxSlideout {
     constructor(_element) {
         this._element = _element;
-        this._clickAttached = false;
         this.opened = false;
     }
     openedChanged(newValue, oldValue) {
@@ -136,13 +135,19 @@ export let NxSlideout = class NxSlideout {
     }
     attachEventHandlers() {
         if (this._options.closeOnContentClick) {
-            this.contentRef.addEventListener('click', this.contentOnClick.bind(this));
-            this._clickAttached = true;
+            this._clickTarget = this.contentRef;
+            if (typeof this.clickableSelector === 'string') {
+                const results = DOM.querySelectorAll(this.clickableSelector);
+                if (results.length) {
+                    this._clickTarget = results[0];
+                }
+            }
+            this._clickTarget.addEventListener('click', this.contentOnClick.bind(this));
         }
     }
     detachEventHandlers() {
-        if (this._clickAttached) {
-            this.contentRef.removeEventListener('click', this.contentOnClick);
+        if (this._clickTarget) {
+            this._clickTarget.removeEventListener('click', this.contentOnClick);
         }
     }
     contentOnClick() {
@@ -178,6 +183,9 @@ __decorate([
 __decorate([
     bindable({ defaultBindingMode: bindingMode.twoWay })
 ], NxSlideout.prototype, "opened", void 0);
+__decorate([
+    bindable({ defaultBindingMode: bindingMode.oneWay })
+], NxSlideout.prototype, "clickableSelector", void 0);
 NxSlideout = __decorate([
     customElement('nx-slideout'),
     inlineView(`

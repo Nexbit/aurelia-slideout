@@ -53,7 +53,6 @@ exports.defaultSettings = {
 var NxSlideout = (function () {
     function NxSlideout(_element) {
         this._element = _element;
-        this._clickAttached = false;
         this.opened = false;
     }
     NxSlideout.prototype.openedChanged = function (newValue, oldValue) {
@@ -141,13 +140,19 @@ var NxSlideout = (function () {
     };
     NxSlideout.prototype.attachEventHandlers = function () {
         if (this._options.closeOnContentClick) {
-            this.contentRef.addEventListener('click', this.contentOnClick.bind(this));
-            this._clickAttached = true;
+            this._clickTarget = this.contentRef;
+            if (typeof this.clickableSelector === 'string') {
+                var results = aurelia_pal_1.DOM.querySelectorAll(this.clickableSelector);
+                if (results.length) {
+                    this._clickTarget = results[0];
+                }
+            }
+            this._clickTarget.addEventListener('click', this.contentOnClick.bind(this));
         }
     };
     NxSlideout.prototype.detachEventHandlers = function () {
-        if (this._clickAttached) {
-            this.contentRef.removeEventListener('click', this.contentOnClick);
+        if (this._clickTarget) {
+            this._clickTarget.removeEventListener('click', this.contentOnClick);
         }
     };
     NxSlideout.prototype.contentOnClick = function () {
@@ -182,6 +187,9 @@ var NxSlideout = (function () {
     __decorate([
         aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.twoWay })
     ], NxSlideout.prototype, "opened", void 0);
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay })
+    ], NxSlideout.prototype, "clickableSelector", void 0);
     NxSlideout = __decorate([
         aurelia_templating_1.customElement('nx-slideout'),
         aurelia_templating_1.inlineView("\n  <template>\n    <require from=\"./style.css\"></require>\n    <slot></slot>\n  </template>\n"),

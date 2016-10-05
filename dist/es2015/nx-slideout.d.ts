@@ -121,9 +121,17 @@ export declare class NxSlideout {
      * @memberOf NxSlideout
      */
     opened?: boolean;
+    /**
+     * A css selector that will determine the target for closeOnContentClick behavior.
+     * If not specified, the contentRef element will be used as the click target.
+     *
+     * @type {string}
+     * @memberOf NxSlideout
+     */
+    clickableSelector?: string;
     private _slideout?;
     private _options;
-    private _clickAttached;
+    private _clickTarget;
     constructor(_element: HTMLElement);
     openedChanged(newValue?: boolean, oldValue?: boolean): void;
     attached(): void;

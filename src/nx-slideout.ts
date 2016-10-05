@@ -107,7 +107,7 @@ export let defaultSettings: SlideoutOptions = {
     fx: 'ease',
     duration: 300,
     tolerance: 70,
-    padding: 256,
+    padding: 250,
     side: 'left',
     closeOnContentClick: true
 };

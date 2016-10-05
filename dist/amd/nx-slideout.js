@@ -42,7 +42,7 @@ define(["require", "exports", 'aurelia-templating', 'aurelia-binding', 'aurelia-
         fx: 'ease',
         duration: 300,
         tolerance: 70,
-        padding: 256,
+        padding: 250,
         side: 'left',
         closeOnContentClick: true
     };

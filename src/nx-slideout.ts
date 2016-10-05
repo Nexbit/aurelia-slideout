@@ -190,11 +190,32 @@ export class NxSlideout {
     @bindable({ defaultBindingMode: bindingMode.oneWay })
     public closeOnContentClick?: boolean;
 
+    /**
+     * Gets or sets whether the slideout is opened.
+     *
+     * @type {boolean}
+     * @memberOf NxSlideout
+     */
+    @bindable({ defaultBindingMode: bindingMode.twoWay })
+    public opened?: boolean;
+
     private _slideout?: Slideout;
     private _options: SlideoutOptions;
     private _clickAttached: boolean = false;
 
     public constructor(private _element: HTMLElement) {
+        this.opened = false;
+    }
+
+    public openedChanged(newValue?: boolean, oldValue?: boolean) {
+        if (newValue !== oldValue && this._slideout) {
+            if (newValue && !this._slideout.isOpen()) {
+                this.open();
+            }
+            else if (!newValue && this._slideout.isOpen()) {
+                this.close();
+            }
+        }
     }
 
     public attached() {
@@ -213,6 +234,7 @@ export class NxSlideout {
     public open() {
         if (this._slideout) {
             this._slideout.open();
+            this.opened = this._slideout.isOpen();
         }
     }
 
@@ -224,6 +246,7 @@ export class NxSlideout {
     public close() {
         if (this._slideout) {
             this._slideout.close();
+            this.opened = this._slideout.isOpen();
         }
     }
 
@@ -235,6 +258,7 @@ export class NxSlideout {
     public toggle() {
         if (this._slideout) {
             this._slideout.toggle();
+            this.opened = this._slideout.isOpen();
         }
     }
 
@@ -261,6 +285,10 @@ export class NxSlideout {
 
         this.attachEventHandlers();
         this._slideout = new Slideout(libOptions);
+
+        if (this.opened) {
+            this.open();
+        }
     }
 
     private destroy() {

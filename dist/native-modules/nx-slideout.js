@@ -53,7 +53,18 @@ export var NxSlideout = (function () {
     function NxSlideout(_element) {
         this._element = _element;
         this._clickAttached = false;
+        this.opened = false;
     }
+    NxSlideout.prototype.openedChanged = function (newValue, oldValue) {
+        if (newValue !== oldValue && this._slideout) {
+            if (newValue && !this._slideout.isOpen()) {
+                this.open();
+            }
+            else if (!newValue && this._slideout.isOpen()) {
+                this.close();
+            }
+        }
+    };
     NxSlideout.prototype.attached = function () {
         this.init();
     };
@@ -68,6 +79,7 @@ export var NxSlideout = (function () {
     NxSlideout.prototype.open = function () {
         if (this._slideout) {
             this._slideout.open();
+            this.opened = this._slideout.isOpen();
         }
     };
     /**
@@ -78,6 +90,7 @@ export var NxSlideout = (function () {
     NxSlideout.prototype.close = function () {
         if (this._slideout) {
             this._slideout.close();
+            this.opened = this._slideout.isOpen();
         }
     };
     /**
@@ -88,6 +101,7 @@ export var NxSlideout = (function () {
     NxSlideout.prototype.toggle = function () {
         if (this._slideout) {
             this._slideout.toggle();
+            this.opened = this._slideout.isOpen();
         }
     };
     NxSlideout.prototype.init = function () {
@@ -113,6 +127,9 @@ export var NxSlideout = (function () {
         libOptions.menu = this._element;
         this.attachEventHandlers();
         this._slideout = new Slideout(libOptions);
+        if (this.opened) {
+            this.open();
+        }
     };
     NxSlideout.prototype.destroy = function () {
         if (this._slideout) {
@@ -161,6 +178,9 @@ export var NxSlideout = (function () {
     __decorate([
         bindable({ defaultBindingMode: bindingMode.oneWay })
     ], NxSlideout.prototype, "closeOnContentClick", void 0);
+    __decorate([
+        bindable({ defaultBindingMode: bindingMode.twoWay })
+    ], NxSlideout.prototype, "opened", void 0);
     NxSlideout = __decorate([
         customElement('nx-slideout'),
         inlineView("\n  <template>\n    <require from=\"./style.css\"></require>\n    <slot></slot>\n  </template>\n"),

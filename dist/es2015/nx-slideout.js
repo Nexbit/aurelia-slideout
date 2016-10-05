@@ -49,6 +49,17 @@ export let NxSlideout = class NxSlideout {
     constructor(_element) {
         this._element = _element;
         this._clickAttached = false;
+        this.opened = false;
+    }
+    openedChanged(newValue, oldValue) {
+        if (newValue !== oldValue && this._slideout) {
+            if (newValue && !this._slideout.isOpen()) {
+                this.open();
+            }
+            else if (!newValue && this._slideout.isOpen()) {
+                this.close();
+            }
+        }
     }
     attached() {
         this.init();
@@ -64,6 +75,7 @@ export let NxSlideout = class NxSlideout {
     open() {
         if (this._slideout) {
             this._slideout.open();
+            this.opened = this._slideout.isOpen();
         }
     }
     /**
@@ -74,6 +86,7 @@ export let NxSlideout = class NxSlideout {
     close() {
         if (this._slideout) {
             this._slideout.close();
+            this.opened = this._slideout.isOpen();
         }
     }
     /**
@@ -84,6 +97,7 @@ export let NxSlideout = class NxSlideout {
     toggle() {
         if (this._slideout) {
             this._slideout.toggle();
+            this.opened = this._slideout.isOpen();
         }
     }
     init() {
@@ -109,6 +123,9 @@ export let NxSlideout = class NxSlideout {
         libOptions.menu = this._element;
         this.attachEventHandlers();
         this._slideout = new Slideout(libOptions);
+        if (this.opened) {
+            this.open();
+        }
     }
     destroy() {
         if (this._slideout) {
@@ -158,6 +175,9 @@ __decorate([
 __decorate([
     bindable({ defaultBindingMode: bindingMode.oneWay })
 ], NxSlideout.prototype, "closeOnContentClick", void 0);
+__decorate([
+    bindable({ defaultBindingMode: bindingMode.twoWay })
+], NxSlideout.prototype, "opened", void 0);
 NxSlideout = __decorate([
     customElement('nx-slideout'),
     inlineView(`

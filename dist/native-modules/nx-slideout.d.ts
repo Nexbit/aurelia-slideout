@@ -114,10 +114,18 @@ export declare class NxSlideout {
      * @memberOf NxSlideout
      */
     closeOnContentClick?: boolean;
+    /**
+     * Gets or sets whether the slideout is opened.
+     *
+     * @type {boolean}
+     * @memberOf NxSlideout
+     */
+    opened?: boolean;
     private _slideout?;
     private _options;
     private _clickAttached;
     constructor(_element: HTMLElement);
+    openedChanged(newValue?: boolean, oldValue?: boolean): void;
     attached(): void;
     detached(): void;
     /**

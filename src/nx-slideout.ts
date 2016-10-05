@@ -199,9 +199,19 @@ export class NxSlideout {
     @bindable({ defaultBindingMode: bindingMode.twoWay })
     opened?: boolean;
 
+    /**
+     * A css selector that will determine the target for closeOnContentClick behavior.
+     * If not specified, the contentRef element will be used as the click target.
+     *
+     * @type {string}
+     * @memberOf NxSlideout
+     */
+    @bindable({ defaultBindingMode: bindingMode.oneWay })
+    clickableSelector?: string;
+
     private _slideout?: Slideout;
     private _options: SlideoutOptions;
-    private _clickAttached: boolean = false;
+    private _clickTarget: HTMLElement;
 
     constructor(private _element: HTMLElement) {
         this.opened = false;
@@ -301,14 +311,20 @@ export class NxSlideout {
 
     private attachEventHandlers() {
         if (this._options.closeOnContentClick) {
-            this.contentRef.addEventListener('click', this.contentOnClick.bind(this));
-            this._clickAttached = true;
+            this._clickTarget = this.contentRef;
+            if (typeof this.clickableSelector === 'string') {
+                const results = DOM.querySelectorAll(this.clickableSelector);
+                if (results.length) {
+                    this._clickTarget = results[0] as HTMLElement;
+                }
+            }
+            this._clickTarget.addEventListener('click', this.contentOnClick.bind(this));
         }
     }
 
     private detachEventHandlers() {
-        if (this._clickAttached) {
-            this.contentRef.removeEventListener('click', this.contentOnClick);
+        if (this._clickTarget) {
+            this._clickTarget.removeEventListener('click', this.contentOnClick);
         }
     }
 

@@ -16,11 +16,11 @@ function extend<T extends Object>(deep: boolean, target: T, ...objects: Object[]
 
     // Merge the object into the extended object
     const merge = function (obj: Object) {
-        for ( let prop in obj ) {
-            if ( Object.prototype.hasOwnProperty.call( obj, prop ) ) {
+        for (let prop in obj) {
+            if (Object.prototype.hasOwnProperty.call(obj, prop)) {
                 // If deep merge and property is an object, merge properties
-                if ( deep && Object.prototype.toString.call(obj[prop]) === '[object Object]' ) {
-                    extended[prop] = extend( /*deep*/ true, extended[prop], obj[prop] );
+                if (deep && Object.prototype.toString.call(obj[prop]) === '[object Object]') {
+                    extended[prop] = extend( /*deep*/ true, extended[prop], obj[prop]);
                 }
                 else {
                     extended[prop] = obj[prop];
@@ -30,7 +30,7 @@ function extend<T extends Object>(deep: boolean, target: T, ...objects: Object[]
     };
 
     // Loop through each object and conduct a merge
-    for (let i = 0 ; i < length; i++) {
+    for (let i = 0; i < length; i++) {
         const obj = objects[i];
         merge(obj);
     }
@@ -128,7 +128,7 @@ export class NxSlideout {
      * @memberOf NxSlideout
      */
     @bindable({ defaultBindingMode: bindingMode.oneWay })
-    public contentRef: HTMLElement;
+    contentRef: HTMLElement;
 
     /**
      * The CSS effect to use when animating the opening and closing of the slideout.
@@ -138,7 +138,7 @@ export class NxSlideout {
      * @memberOf NxSlideout
      */
     @bindable({ defaultBindingMode: bindingMode.oneWay })
-    public fx?: string;
+    fx?: string;
 
     /**
      * The time (milliseconds) to open/close the slideout.
@@ -148,7 +148,7 @@ export class NxSlideout {
      * @memberOf NxSlideout
      */
     @bindable({ defaultBindingMode: bindingMode.oneWay })
-    public duration?: number;
+    duration?: number;
 
     /**
      * The number of px needed for the menu can be opened completely, otherwise it closes.
@@ -158,7 +158,7 @@ export class NxSlideout {
      * @memberOf NxSlideout
      */
     @bindable({ defaultBindingMode: bindingMode.oneWay })
-    public tolerance?: number;
+    tolerance?: number;
 
     /**
      * The left padding of the slideout menu in px.
@@ -168,7 +168,7 @@ export class NxSlideout {
      * @memberOf NxSlideout
      */
     @bindable({ defaultBindingMode: bindingMode.oneWay })
-    public padding?: number;
+    padding?: number;
 
     /**
      * The side to open the slideout.
@@ -178,7 +178,7 @@ export class NxSlideout {
      * @memberOf NxSlideout
      */
     @bindable({ defaultBindingMode: bindingMode.oneWay })
-    public side?: 'left' | 'right';
+    side?: 'left' | 'right';
 
     /**
      * Set this option to false to disable closing the slideout when clicking inside the panel area.
@@ -188,7 +188,7 @@ export class NxSlideout {
      * @memberOf NxSlideout
      */
     @bindable({ defaultBindingMode: bindingMode.oneWay })
-    public closeOnContentClick?: boolean;
+    closeOnContentClick?: boolean;
 
     /**
      * Gets or sets whether the slideout is opened.
@@ -197,17 +197,17 @@ export class NxSlideout {
      * @memberOf NxSlideout
      */
     @bindable({ defaultBindingMode: bindingMode.twoWay })
-    public opened?: boolean;
+    opened?: boolean;
 
     private _slideout?: Slideout;
     private _options: SlideoutOptions;
     private _clickAttached: boolean = false;
 
-    public constructor(private _element: HTMLElement) {
+    constructor(private _element: HTMLElement) {
         this.opened = false;
     }
 
-    public openedChanged(newValue?: boolean, oldValue?: boolean) {
+    openedChanged(newValue?: boolean, oldValue?: boolean) {
         if (newValue !== oldValue && this._slideout) {
             if (newValue && !this._slideout.isOpen()) {
                 this.open();
@@ -218,11 +218,11 @@ export class NxSlideout {
         }
     }
 
-    public attached() {
+    attached() {
         this.init();
     }
 
-    public detached() {
+    detached() {
         this.destroy();
     }
 
@@ -231,7 +231,7 @@ export class NxSlideout {
      *
      * @memberOf NxSlideout
      */
-    public open() {
+    open() {
         if (this._slideout) {
             this._slideout.open();
             this.opened = this._slideout.isOpen();
@@ -243,7 +243,7 @@ export class NxSlideout {
      *
      * @memberOf NxSlideout
      */
-    public close() {
+    close() {
         if (this._slideout) {
             this._slideout.close();
             this.opened = this._slideout.isOpen();
@@ -255,7 +255,7 @@ export class NxSlideout {
      *
      * @memberOf NxSlideout
      */
-    public toggle() {
+    toggle() {
         if (this._slideout) {
             this._slideout.toggle();
             this.opened = this._slideout.isOpen();

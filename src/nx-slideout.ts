@@ -94,13 +94,13 @@ export interface SlideoutOptions {
     side?: 'left' | 'right';
 
     /**
-     * Set this option to false to disable closing the slideout when clicking inside the panel area.
+     * Set this option to false to disable closing the slideout when clicking inside the click-target area.
      * Default: true.
      *
      * @type {boolean}
      * @memberOf SlideoutOptions
      */
-    closeOnContentClick?: boolean;
+    closeOnClick?: boolean;
 }
 
 export let defaultSettings: SlideoutOptions = {
@@ -109,7 +109,7 @@ export let defaultSettings: SlideoutOptions = {
     tolerance: 70,
     padding: 250,
     side: 'left',
-    closeOnContentClick: true
+    closeOnClick: true
 };
 
 @customElement('nx-slideout')
@@ -122,13 +122,14 @@ export let defaultSettings: SlideoutOptions = {
 @inject(DOM.Element)
 export class NxSlideout {
     /**
-     * A reference to the HTMLElement that hosts the content panel.
+     * A reference to the HTMLElement that should slide out when the side menu opens.
+     * Can also be set to a css selector string.
      *
-     * @type {HTMLElement}
+     * @type {HTMLElement | string}
      * @memberOf NxSlideout
      */
     @bindable({ defaultBindingMode: bindingMode.oneWay })
-    contentRef: HTMLElement;
+    target: HTMLElement | string;
 
     /**
      * The CSS effect to use when animating the opening and closing of the slideout.
@@ -181,14 +182,14 @@ export class NxSlideout {
     side?: 'left' | 'right';
 
     /**
-     * Set this option to false to disable closing the slideout when clicking inside the panel area.
+     * Set this option to false to disable closing the slideout when clicking inside the click-target area.
      * Default: true.
      *
      * @type {boolean}
      * @memberOf NxSlideout
      */
     @bindable({ defaultBindingMode: bindingMode.oneWay })
-    closeOnContentClick?: boolean;
+    closeOnClick?: boolean;
 
     /**
      * Gets or sets whether the slideout is opened.
@@ -200,14 +201,14 @@ export class NxSlideout {
     opened?: boolean;
 
     /**
-     * A css selector that will determine the target for closeOnContentClick behavior.
-     * If not specified, the contentRef element will be used as the click target.
+     * An HTMLElement or css selector that will determine the target for closeOnClick behavior.
+     * If not specified, the target element will be used as the click target.
      *
-     * @type {string}
+     * @type {HTMLElement | string}
      * @memberOf NxSlideout
      */
     @bindable({ defaultBindingMode: bindingMode.oneWay })
-    clickableSelector?: string;
+    clickTarget?: HTMLElement | string;
 
     private _slideout?: Slideout;
     private _options: SlideoutOptions;
@@ -281,15 +282,22 @@ export class NxSlideout {
             tolerance: this.tolerance,
             padding: this.padding,
             side: this.side,
-            closeOnContentClick: this.closeOnContentClick
+            closeOnClick: this.closeOnClick
         };
         this._options = extend(/*deep*/ false, {} as SlideoutOptions, bindableOptions, defaultSettings);
         const libOptions = this._options as Slideout.Options;
-        if (this.contentRef) {
-            libOptions.panel = this.contentRef;
+
+        if (typeof this.target === 'object') {
+            libOptions.panel = this.target;
         }
-        else {
-            throw new Error('content-ref attribute is mandatory.');
+        else if (typeof this.target === 'string') {
+            const results = DOM.querySelectorAll(this.target);
+            if (results.length) {
+                libOptions.panel = results[0] as HTMLElement;
+            }
+        }
+        if (!libOptions.panel) {
+            throw new Error('Cannot find target element.');
         }
         libOptions.menu = this._element;
 
@@ -310,10 +318,13 @@ export class NxSlideout {
     }
 
     private attachEventHandlers() {
-        if (this._options.closeOnContentClick) {
-            this._clickTarget = this.contentRef;
-            if (typeof this.clickableSelector === 'string') {
-                const results = DOM.querySelectorAll(this.clickableSelector);
+        if (this._options.closeOnClick) {
+            this._clickTarget = this.target as HTMLElement;
+            if (typeof this.clickTarget === 'object') {
+                this._clickTarget = this.clickTarget;
+            }
+            else if (typeof this.clickTarget === 'string') {
+                const results = DOM.querySelectorAll(this.clickTarget);
                 if (results.length) {
                     this._clickTarget = results[0] as HTMLElement;
                 }

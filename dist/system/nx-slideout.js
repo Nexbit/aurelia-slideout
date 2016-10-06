@@ -65,7 +65,7 @@ System.register(['aurelia-templating', 'aurelia-binding', 'aurelia-dependency-in
                 tolerance: 70,
                 padding: 250,
                 side: 'left',
-                closeOnContentClick: true
+                closeOnClick: true
             });
             NxSlideout = (function () {
                 function NxSlideout(_element) {
@@ -131,15 +131,21 @@ System.register(['aurelia-templating', 'aurelia-binding', 'aurelia-dependency-in
                         tolerance: this.tolerance,
                         padding: this.padding,
                         side: this.side,
-                        closeOnContentClick: this.closeOnContentClick
+                        closeOnClick: this.closeOnClick
                     };
                     this._options = extend(/*deep*/ false, {}, bindableOptions, defaultSettings);
                     var libOptions = this._options;
-                    if (this.contentRef) {
-                        libOptions.panel = this.contentRef;
+                    if (typeof this.target === 'object') {
+                        libOptions.panel = this.target;
                     }
-                    else {
-                        throw new Error('content-ref attribute is mandatory.');
+                    else if (typeof this.target === 'string') {
+                        var results = aurelia_pal_1.DOM.querySelectorAll(this.target);
+                        if (results.length) {
+                            libOptions.panel = results[0];
+                        }
+                    }
+                    if (!libOptions.panel) {
+                        throw new Error('Cannot find target element.');
                     }
                     libOptions.menu = this._element;
                     this.attachEventHandlers();
@@ -156,10 +162,13 @@ System.register(['aurelia-templating', 'aurelia-binding', 'aurelia-dependency-in
                     }
                 };
                 NxSlideout.prototype.attachEventHandlers = function () {
-                    if (this._options.closeOnContentClick) {
-                        this._clickTarget = this.contentRef;
-                        if (typeof this.clickableSelector === 'string') {
-                            var results = aurelia_pal_1.DOM.querySelectorAll(this.clickableSelector);
+                    if (this._options.closeOnClick) {
+                        this._clickTarget = this.target;
+                        if (typeof this.clickTarget === 'object') {
+                            this._clickTarget = this.clickTarget;
+                        }
+                        else if (typeof this.clickTarget === 'string') {
+                            var results = aurelia_pal_1.DOM.querySelectorAll(this.clickTarget);
                             if (results.length) {
                                 this._clickTarget = results[0];
                             }
@@ -182,7 +191,7 @@ System.register(['aurelia-templating', 'aurelia-binding', 'aurelia-dependency-in
                 };
                 __decorate([
                     aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay })
-                ], NxSlideout.prototype, "contentRef", void 0);
+                ], NxSlideout.prototype, "target", void 0);
                 __decorate([
                     aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay })
                 ], NxSlideout.prototype, "fx", void 0);
@@ -200,13 +209,13 @@ System.register(['aurelia-templating', 'aurelia-binding', 'aurelia-dependency-in
                 ], NxSlideout.prototype, "side", void 0);
                 __decorate([
                     aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay })
-                ], NxSlideout.prototype, "closeOnContentClick", void 0);
+                ], NxSlideout.prototype, "closeOnClick", void 0);
                 __decorate([
                     aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.twoWay })
                 ], NxSlideout.prototype, "opened", void 0);
                 __decorate([
                     aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay })
-                ], NxSlideout.prototype, "clickableSelector", void 0);
+                ], NxSlideout.prototype, "clickTarget", void 0);
                 NxSlideout = __decorate([
                     aurelia_templating_1.customElement('nx-slideout'),
                     aurelia_templating_1.inlineView("\n  <template>\n    <require from=\"./style.css\"></require>\n    <slot></slot>\n  </template>\n"),

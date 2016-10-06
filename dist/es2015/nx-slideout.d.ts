@@ -48,24 +48,25 @@ export interface SlideoutOptions {
      */
     side?: 'left' | 'right';
     /**
-     * Set this option to false to disable closing the slideout when clicking inside the panel area.
+     * Set this option to false to disable closing the slideout when clicking inside the click-target area.
      * Default: true.
      *
      * @type {boolean}
      * @memberOf SlideoutOptions
      */
-    closeOnContentClick?: boolean;
+    closeOnClick?: boolean;
 }
 export declare let defaultSettings: SlideoutOptions;
 export declare class NxSlideout {
     private _element;
     /**
-     * A reference to the HTMLElement that hosts the content panel.
+     * A reference to the HTMLElement that should slide out when the side menu opens.
+     * Can also be set to a css selector string.
      *
-     * @type {HTMLElement}
+     * @type {HTMLElement | string}
      * @memberOf NxSlideout
      */
-    contentRef: HTMLElement;
+    target: HTMLElement | string;
     /**
      * The CSS effect to use when animating the opening and closing of the slideout.
      * Default: ease.
@@ -107,13 +108,13 @@ export declare class NxSlideout {
      */
     side?: 'left' | 'right';
     /**
-     * Set this option to false to disable closing the slideout when clicking inside the panel area.
+     * Set this option to false to disable closing the slideout when clicking inside the click-target area.
      * Default: true.
      *
      * @type {boolean}
      * @memberOf NxSlideout
      */
-    closeOnContentClick?: boolean;
+    closeOnClick?: boolean;
     /**
      * Gets or sets whether the slideout is opened.
      *
@@ -122,13 +123,13 @@ export declare class NxSlideout {
      */
     opened?: boolean;
     /**
-     * A css selector that will determine the target for closeOnContentClick behavior.
-     * If not specified, the contentRef element will be used as the click target.
+     * An HTMLElement or css selector that will determine the target for closeOnClick behavior.
+     * If not specified, the target element will be used as the click target.
      *
-     * @type {string}
+     * @type {HTMLElement | string}
      * @memberOf NxSlideout
      */
-    clickableSelector?: string;
+    clickTarget?: HTMLElement | string;
     private _slideout?;
     private _options;
     private _clickTarget;

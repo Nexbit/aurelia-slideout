@@ -43,7 +43,7 @@ export let defaultSettings = {
     tolerance: 70,
     padding: 250,
     side: 'left',
-    closeOnContentClick: true
+    closeOnClick: true
 };
 export let NxSlideout = class NxSlideout {
     constructor(_element) {
@@ -109,15 +109,21 @@ export let NxSlideout = class NxSlideout {
             tolerance: this.tolerance,
             padding: this.padding,
             side: this.side,
-            closeOnContentClick: this.closeOnContentClick
+            closeOnClick: this.closeOnClick
         };
         this._options = extend(/*deep*/ false, {}, bindableOptions, defaultSettings);
         const libOptions = this._options;
-        if (this.contentRef) {
-            libOptions.panel = this.contentRef;
+        if (typeof this.target === 'object') {
+            libOptions.panel = this.target;
         }
-        else {
-            throw new Error('content-ref attribute is mandatory.');
+        else if (typeof this.target === 'string') {
+            const results = DOM.querySelectorAll(this.target);
+            if (results.length) {
+                libOptions.panel = results[0];
+            }
+        }
+        if (!libOptions.panel) {
+            throw new Error('Cannot find target element.');
         }
         libOptions.menu = this._element;
         this.attachEventHandlers();
@@ -134,10 +140,13 @@ export let NxSlideout = class NxSlideout {
         }
     }
     attachEventHandlers() {
-        if (this._options.closeOnContentClick) {
-            this._clickTarget = this.contentRef;
-            if (typeof this.clickableSelector === 'string') {
-                const results = DOM.querySelectorAll(this.clickableSelector);
+        if (this._options.closeOnClick) {
+            this._clickTarget = this.target;
+            if (typeof this.clickTarget === 'object') {
+                this._clickTarget = this.clickTarget;
+            }
+            else if (typeof this.clickTarget === 'string') {
+                const results = DOM.querySelectorAll(this.clickTarget);
                 if (results.length) {
                     this._clickTarget = results[0];
                 }
@@ -161,7 +170,7 @@ export let NxSlideout = class NxSlideout {
 };
 __decorate([
     bindable({ defaultBindingMode: bindingMode.oneWay })
-], NxSlideout.prototype, "contentRef", void 0);
+], NxSlideout.prototype, "target", void 0);
 __decorate([
     bindable({ defaultBindingMode: bindingMode.oneWay })
 ], NxSlideout.prototype, "fx", void 0);
@@ -179,13 +188,13 @@ __decorate([
 ], NxSlideout.prototype, "side", void 0);
 __decorate([
     bindable({ defaultBindingMode: bindingMode.oneWay })
-], NxSlideout.prototype, "closeOnContentClick", void 0);
+], NxSlideout.prototype, "closeOnClick", void 0);
 __decorate([
     bindable({ defaultBindingMode: bindingMode.twoWay })
 ], NxSlideout.prototype, "opened", void 0);
 __decorate([
     bindable({ defaultBindingMode: bindingMode.oneWay })
-], NxSlideout.prototype, "clickableSelector", void 0);
+], NxSlideout.prototype, "clickTarget", void 0);
 NxSlideout = __decorate([
     customElement('nx-slideout'),
     inlineView(`

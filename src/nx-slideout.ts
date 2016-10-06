@@ -218,7 +218,19 @@ export class NxSlideout {
         this.opened = false;
     }
 
+    propertyChanged(propertyName: string, newValue: any, oldValue: any) {
+        // console.log(`propertyChanged called for ${propertyName}! newValue = ${newValue}, oldValue = ${oldValue}`);
+        // ignore properties that are truly dynamic
+        if (['opened'].indexOf(propertyName) !== -1) { return; }
+        if (newValue !== oldValue && this._slideout) {
+            // console.log('propertyChanged is recreating!');
+            this.destroy();
+            this.init();
+        }
+    }
+
     openedChanged(newValue?: boolean, oldValue?: boolean) {
+        // console.log('opened changed!');
         if (newValue !== oldValue && this._slideout) {
             if (newValue && !this._slideout.isOpen()) {
                 this.open();
@@ -307,6 +319,7 @@ export class NxSlideout {
         if (this.opened) {
             this.open();
         }
+        // console.log('inited!');
     }
 
     private destroy() {
@@ -314,6 +327,7 @@ export class NxSlideout {
             this.detachEventHandlers();
             this._slideout.destroy();
             this._slideout = undefined;
+            // console.log('destroyed!');
         }
     }
 

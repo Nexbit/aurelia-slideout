@@ -28,6 +28,23 @@ describe('end to end', () => {
             // and the content panel should have a class with name "slideout-panel"
             .then(() => expect(slideoutPanel.className).toBe('au-target slideout-panel'))
 
+            // opens the slideout
+            .then(() => {
+                viewModel.toggle();
+            })
+            .then(() => expect(document.documentElement.classList).toContain('slideout-open'))
+            // closes the slideout
+            .then(() => {
+                viewModel.toggle();
+            })
+            .then(() => expect(viewModel.opened).toBe(false))
+            // change a property binding on the component
+            .then(() => {
+                viewModel.opened = true;
+                viewModel.closeOnClick = false;
+            })
+            .then(() => expect(viewModel.opened).toBe(true))
+
             // cleanup and finish.
             .then(() => component.dispose())
             .then(done);

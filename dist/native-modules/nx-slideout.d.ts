@@ -134,6 +134,7 @@ export declare class NxSlideout {
     private _options;
     private _clickTarget;
     constructor(_element: HTMLElement);
+    propertyChanged(propertyName: string, newValue: any, oldValue: any): void;
     openedChanged(newValue?: boolean, oldValue?: boolean): void;
     attached(): void;
     detached(): void;

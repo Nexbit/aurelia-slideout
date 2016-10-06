@@ -51,7 +51,20 @@ define(["require", "exports", 'aurelia-templating', 'aurelia-binding', 'aurelia-
             this._element = _element;
             this.opened = false;
         }
+        NxSlideout.prototype.propertyChanged = function (propertyName, newValue, oldValue) {
+            // console.log(`propertyChanged called for ${propertyName}! newValue = ${newValue}, oldValue = ${oldValue}`);
+            // ignore properties that are truly dynamic
+            if (['opened'].indexOf(propertyName) !== -1) {
+                return;
+            }
+            if (newValue !== oldValue && this._slideout) {
+                // console.log('propertyChanged is recreating!');
+                this.destroy();
+                this.init();
+            }
+        };
         NxSlideout.prototype.openedChanged = function (newValue, oldValue) {
+            // console.log('opened changed!');
             if (newValue !== oldValue && this._slideout) {
                 if (newValue && !this._slideout.isOpen()) {
                     this.open();
@@ -132,6 +145,7 @@ define(["require", "exports", 'aurelia-templating', 'aurelia-binding', 'aurelia-
             if (this.opened) {
                 this.open();
             }
+            // console.log('inited!');
         };
         NxSlideout.prototype.destroy = function () {
             if (this._slideout) {

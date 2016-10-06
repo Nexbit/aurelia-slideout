@@ -1,6 +1,6 @@
 {
   "name": "aurelia-slideout",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Provides a component to wrap the slideout Javascript library.",
   "keywords": [
     "aurelia",
